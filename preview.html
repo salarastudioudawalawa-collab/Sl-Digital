@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SL Digital Solutione | Web Developer Portfolio</title>
+  <meta name="description" content="SL Digital Solutione builds fast, modern, high-converting websites. Web design, development, landing pages, e-commerce, SEO setup, and maintenance." />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       SL Digital Solutione
+       Single-file portfolio site
+       Edit colors/branding here
+    ========================== */
+    :root{
+      --bg: #0b0f19;
+      --surface: rgba(255,255,255,0.06);
+      --surface-2: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --muted-2: rgba(255,255,255,0.55);
+
+      --primary: #7c3aed;   /* purple */
+      --primary-2: #22c55e; /* green */
+      --accent: #06b6d4;    /* cyan */
+
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 18px 60px rgba(0,0,0,0.45);
+
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+
+      --max: 1100px;
+    }
+
+    /* Light mode variables (auto switch) */
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f6f7fb;
+        --surface: rgba(0,0,0,0.04);
+        --surface-2: rgba(0,0,0,0.06);
+        --text: rgba(0,0,0,0.88);
+        --muted: rgba(0,0,0,0.64);
+        --muted-2: rgba(0,0,0,0.50);
+        --border: rgba(0,0,0,0.10);
+        --shadow: 0 18px 60px rgba(0,0,0,0.12);
+      }
+    }
+
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 80% -10%, rgba(124,58,237,0.35), transparent 60%),
+                  radial-gradient(900px 700px at 20% 0%, rgba(6,182,212,0.22), transparent 55%),
+                  radial-gradient(900px 700px at 60% 120%, rgba(34,197,94,0.20), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a{ color: inherit; text-decoration: none; }
+    img{ max-width: 100%; display:block; }
+
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    /* =========================
+       Preloader
+    ========================== */
+    .preloader{
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+      z-index: 9999;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    .preloader.hidden{ opacity:0; visibility:hidden; }
+    .loader{
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+      box-shadow: var(--shadow);
+    }
+    @keyframes spin{ to{ transform: rotate(360deg);} }
+
+    /* =========================
+       Navbar
+    ========================== */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.10));
+      border-bottom: 1px solid var(--border);
+    }
+    @media (prefers-color-scheme: light){
+      .nav{ background: linear-gradient(to bottom, rgba(255,255,255,0.80), rgba(255,255,255,0.55)); }
+    }
+
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+    .brand-badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 10px 30px rgba(124,58,237,0.22);
+      position: relative;
+      overflow: hidden;
+    }
+    .brand-badge::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.55), transparent 40%);
+      transform: rotate(20deg);
+    }
+
+    .nav-links{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+    }
+    .nav-links a{
+      font-size: 14px;
+      color: var(--muted);
+      padding: 10px 10px;
+      border-radius: 12px;
+      transition: .2s ease;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .nav-actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: var(--surface-2); }
+    .btn:active{ transform: translateY(0px); }
+
+    .btn-primary{
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 16px 45px rgba(124,58,237,0.25);
+    }
+    .btn-primary:hover{ filter: brightness(1.05); }
+
+    .btn-ghost{
+      background: transparent;
+      border-color: var(--border);
+    }
+
+    .hamburger{
+      display:none;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+    }
+    .hamburger span{
+      display:block;
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      margin: 4px auto;
+      opacity: .85;
+    }
+
+    @media (max-width: 860px){
+      .nav-links{ display:none; }
+      .hamburger{ display:inline-flex; flex-direction: column; align-items:center; justify-content:center; }
+    }
+
+    .mobile-menu{
+      display:none;
+      border-top: 1px solid var(--border);
+      padding: 10px 0 16px;
+    }
+    .mobile-menu.open{ display:block; }
+    .mobile-menu a{
+      display:block;
+      padding: 12px 10px;
+      border-radius: 14px;
+      color: var(--muted);
+    }
+    .mobile-menu a:hover{ background: var(--surface); color: var(--text); }
+
+    /* =========================
+       Sections + Utilities
+    ========================== */
+    section{ padding: 72px 0; }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .kicker{
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1,h2,h3{ margin: 0; line-height: 1.2; }
+    h1{ font-size: clamp(34px, 4vw, 52px); }
+    h2{ font-size: clamp(26px, 3vw, 36px); }
+    p{ margin: 10px 0 0; color: var(--muted); }
+
+    .grid{
+      display:grid;
+      gap: 16px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    @media (prefers-color-scheme: light){
+      .card{ background: rgba(255,255,255,0.8); }
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      width: fit-content;
+    }
+
+    /* Reveal animation */
+    .reveal{
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       Hero
+    ========================== */
+    .hero{
+      padding-top: 54px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+    }
+    .hero-left{
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(124,58,237,0.20), rgba(6,182,212,0.10), rgba(34,197,94,0.08));
+      box-shadow: var(--shadow);
+    }
+    .hero-left .lead{
+      font-size: 16px;
+      max-width: 60ch;
+    }
+    .hero-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .hero-right{
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow:hidden;
+    }
+    .hero-right::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 20%, rgba(124,58,237,0.35), transparent 45%),
+                  radial-gradient(circle at 80% 30%, rgba(6,182,212,0.25), transparent 45%),
+                  radial-gradient(circle at 50% 90%, rgba(34,197,94,0.22), transparent 45%);
+      filter: blur(6px);
+    }
+    .hero-right > *{ position: relative; }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .stat{
+      padding: 14px;
+      border-radius: var(--radius-lg);
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--border);
+    }
+    @media (prefers-color-scheme: light){
+      .stat{ background: rgba(255,255,255,0.65); }
+    }
+    .stat b{
+      display:block;
+      font-size: 22px;
+      margin-bottom: 2px;
+    }
+    .stat span{
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =========================
+       Services
+    ========================== */
+    .services-grid{
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 900px){
+      .services-grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .services-grid{ grid-template-columns: 1fr; }
+    }
+    .service{
+      padding: 18px;
+    }
+    .service .icon{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg, rgba(124,58,237,0.28), rgba(6,182,212,0.18));
+      border: 1px solid var(--border);
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .service h3{ font-size: 18px; }
+    .service p{ font-size: 14px; }
+
+    /* =========================
+       Portfolio + Filter
+    ========================== */
+    .filters{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .chip{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor:pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: .2s ease;
+    }
+    .chip:hover{ background: var(--surface); color: var(--text); }
+    .chip.active{
+      background: linear-gradient(135deg, rgba(124,58,237,0.30), rgba(6,182,212,0.18));
+      color: var(--text);
+    }
+
+    .portfolio-grid{
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 900px){
+      .portfolio-grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .portfolio-grid{ grid-template-columns: 1fr; }
+    }
+    .project{
+      display:flex;
+      flex-direction: column;
+    }
+    .thumb{
+      height: 170px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(circle at 20% 20%, rgba(124,58,237,0.55), transparent 50%),
+                  radial-gradient(circle at 80% 30%, rgba(6,182,212,0.45), transparent 50%),
+                  radial-gradient(circle at 40% 90%, rgba(34,197,94,0.35), transparent 55%),
+                  linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    }
+    .project-body{
+      padding: 16px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .tag{
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      background: var(--surface);
+    }
+    .project h3{ font-size: 18px; }
+    .project p{ font-size: 14px; margin-top: 0; }
+    .project .btn{
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    /* =========================
+       About + Skills
+    ========================== */
+    .about-grid{
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    @media (max-width: 900px){
+      .about-grid{ grid-template-columns: 1fr; }
+    }
+    .about-box{
+      padding: 18px;
+    }
+    .skills{
+      padding: 18px;
+    }
+    .skill{
+      margin-top: 12px;
+    }
+    .skill .row{
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .bar{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid var(--border);
+      overflow:hidden;
+    }
+    @media (prefers-color-scheme: light){
+      .bar{ background: rgba(0,0,0,0.06); }
+    }
+    .bar > span{
+      display:block;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      transition: width 1s ease;
+    }
+
+    /* =========================
+       Testimonials
+    ========================== */
+    .testi-grid{
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 900px){
+      .testi-grid{ grid-template-columns: 1fr; }
+    }
+    .testi{
+      padding: 18px;
+    }
+    .stars{
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+    @media (prefers-color-scheme: light){
+      .stars{ color: rgba(0,0,0,0.75); }
+    }
+    .who{
+      margin-top: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* =========================
+       Contact
+    ========================== */
+    .contact-grid{
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: start;
+    }
+    @media (max-width: 900px){
+      .contact-grid{ grid-template-columns: 1fr; }
+    }
+    form{
+      padding: 18px;
+    }
+    .field{
+      margin-top: 12px;
+    }
+    label{
+      display:block;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    input, textarea{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    @media (prefers-color-scheme: light){
+      input, textarea{ background: rgba(255,255,255,0.75); color: rgba(0,0,0,0.88); }
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(124,58,237,0.55);
+      background: rgba(255,255,255,0.08);
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+    .form-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      align-items: center;
+    }
+    .msg{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      display:none;
+    }
+    .msg.show{ display:block; }
+
+    .contact-card{
+      padding: 18px;
+    }
+    .contact-card .line{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .contact-card .line:last-child{ border-bottom: none; }
+    .contact-card b{ color: var(--text); }
+
+    /* =========================
+       Footer
+    ========================== */
+    footer{
+      padding: 36px 0 46px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.10);
+    }
+    @media (prefers-color-scheme: light){
+      footer{ background: rgba(255,255,255,0.65); }
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 800px){
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+    .footer-links{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .footer-links a{
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .footer-links a:hover{
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .small{
+      color: var(--muted-2);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* =========================
+       Floating Buttons
+    ========================== */
+    .float-wrap{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 60;
+    }
+    .float-btn{
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease;
+      user-select:none;
+    }
+    .float-btn:hover{ transform: translateY(-2px); background: var(--surface-2); }
+    .float-btn.hidden{ display:none; }
+  </style>
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" aria-label="Loading">
+    <div class="loader" aria-hidden="true"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand" href="#home" aria-label="SL Digital Solutione Home">
+          <span class="brand-badge" aria-hidden="true"></span>
+          <span>SL Digital Solutione</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#about">About</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn btn-ghost" href="#portfolio">View Work</a>
+          <a class="btn btn-primary" id="navWhatsapp" href="https://wa.me/94767520540" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#about">About</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left reveal">
+          <div class="pill">⚡ Fast • Modern • SEO-ready</div>
+          <h1 style="margin-top:14px;">We Build High-Converting Websites</h1>
+          <p class="lead">
+            Web design • Development • Landing pages • E-commerce • Maintenance.
+            We help Sri Lankan businesses look professional and get more customers online.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#portfolio">View Portfolio</a>
+            <a class="btn" href="https://wa.me/94767520540" target="_blank" rel="noopener">WhatsApp Now</a>
+            <a class="btn btn-ghost" href="#contact">Get a Quote</a>
+          </div>
+
+          <p class="small" style="margin-top:14px;">
+            ✅ Mobile-first • ✅ Clean UI • ✅ Easy to edit • ✅ Fast loading
+          </p>
+        </div>
+
+        <aside class="hero-right reveal">
+          <div class="pill">📌 Quick Stats</div>
+          <div class="stats">
+            <div class="stat">
+              <b id="statProjects">25+</b>
+              <span>Projects delivered</span>
+            </div>
+            <div class="stat">
+              <b id="statClients">40+</b>
+              <span>Happy clients</span>
+            </div>
+            <div class="stat">
+              <b id="statSupport">24/7</b>
+              <span>Support & maintenance</span>
+            </div>
+          </div>
+          <p class="small">Tip: Replace these stats with your real numbers.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Services</div>
+          <h2>Everything you need to grow online</h2>
+          <p>Choose a package or request a custom build. We focus on speed, design, and results.</p>
+        </div>
+      </div>
+
+      <div class="grid services-grid">
+        <div class="card service reveal">
+          <div class="icon">🎨</div>
+          <h3>Website Design</h3>
+          <p>Modern UI, clean layout, and brand-ready visuals for a professional online presence.</p>
+        </div>
+        <div class="card service reveal">
+          <div class="icon">💻</div>
+          <h3>Web Development</h3>
+          <p>Fast, responsive websites built with clean HTML/CSS/JS (or your preferred platform).</p>
+        </div>
+        <div class="card service reveal">
+          <div class="icon">🚀</div>
+          <h3>Landing Pages</h3>
+          <p>High-converting pages for ads and promotions with clear CTA and lead capture.</p>
+        </div>
+        <div class="card service reveal">
+          <div class="icon">🛒</div>
+          <h3>E-Commerce</h3>
+          <p>Product pages, catalog layout, and shop-ready structure (payment setup optional).</p>
+        </div>
+        <div class="card service reveal">
+          <div class="icon">🔎</div>
+          <h3>SEO Setup</h3>
+          <p>SEO basics, performance optimization, and meta setup so your site is search-friendly.</p>
+        </div>
+        <div class="card service reveal">
+          <div class="icon">🧰</div>
+          <h3>Maintenance</h3>
+          <p>Monthly updates, backups, small edits, and support to keep everything running smoothly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Portfolio</div>
+          <h2>Recent work</h2>
+          <p>Filter by category to see example projects. Replace titles with your real clients.</p>
+        </div>
+
+        <div class="filters" aria-label="Portfolio filters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="business">Business</button>
+          <button class="chip" data-filter="hotel">Hotel</button>
+          <button class="chip" data-filter="education">Education</button>
+          <button class="chip" data-filter="shop">Shop</button>
+        </div>
+      </div>
+
+      <div class="grid portfolio-grid" id="portfolioGrid">
+        <!-- Project 1 -->
+        <article class="card project reveal" data-category="hotel">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Hotel</div>
+            <h3>Prime Stay Hotel</h3>
+            <p>Booking-friendly layout with rooms, gallery, and WhatsApp quick contact.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="card project reveal" data-category="business">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Business</div>
+            <h3>SL Business Landing</h3>
+            <p>High-converting landing page for ads, with lead form and CTA sections.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="card project reveal" data-category="education">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Education</div>
+            <h3>Little World Academy</h3>
+            <p>Clean institute website with program details, schedule, and inquiry form.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="card project reveal" data-category="shop">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Shop</div>
+            <h3>Online Mini Shop</h3>
+            <p>Product grid, featured deals, and WhatsApp ordering flow for quick sales.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+
+        <!-- Project 5 -->
+        <article class="card project reveal" data-category="business">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Business</div>
+            <h3>Creative Agency Site</h3>
+            <p>Portfolio, services, testimonials, and contact section for lead generation.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+
+        <!-- Project 6 -->
+        <article class="card project reveal" data-category="hotel">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="project-body">
+            <div class="tag">Hotel</div>
+            <h3>Canal Front Resort</h3>
+            <p>Luxury feel with hero visuals, amenities, and booking call-to-actions.</p>
+            <a class="btn" href="#" title="Replace with your demo link">Live Demo →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">About</div>
+          <h2>About SL Digital Solutione</h2>
+          <p>We build websites that look great, load fast, and help your business get customers.</p>
+        </div>
+      </div>
+
+      <div class="grid about-grid">
+        <div class="card about-box reveal">
+          <div class="pill">👋 Friendly & professional</div>
+          <h3 style="margin-top:14px;">Your digital partner</h3>
+          <p>
+            SL Digital Solutione creates modern websites for hotels, shops, institutes, and small businesses.
+            We focus on clean design, mobile performance, and simple editing so you can update your site easily.
+          </p>
+          <p class="small">
+            Want a website with Facebook/WhatsApp integration? We can connect everything for you.
+          </p>
+          <div class="hero-actions" style="margin-top:14px;">
+            <a class="btn btn-primary" href="#contact">Start a Project</a>
+            <a class="btn" href="https://wa.me/94767520540" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="card skills reveal">
+          <div class="pill">🧠 Skills</div>
+
+          <!-- Progress bars animate when visible -->
+          <div class="skill">
+            <div class="row"><span>HTML</span><span>95%</span></div>
+            <div class="bar"><span data-progress="95"></span></div>
+          </div>
+          <div class="skill">
+            <div class="row"><span>CSS</span><span>92%</span></div>
+            <div class="bar"><span data-progress="92"></span></div>
+          </div>
+          <div class="skill">
+            <div class="row"><span>JavaScript</span><span>85%</span></div>
+            <div class="bar"><span data-progress="85"></span></div>
+          </div>
+          <div class="skill">
+            <div class="row"><span>WordPress</span><span>80%</span></div>
+            <div class="bar"><span data-progress="80"></span></div>
+          </div>
+          <div class="skill">
+            <div class="row"><span>SEO</span><span>78%</span></div>
+            <div class="bar"><span data-progress="78"></span></div>
+          </div>
+
+          <p class="small">Edit these % values in HTML to match your real skills.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Testimonials</div>
+          <h2>Clients love our work</h2>
+          <p>Replace these with real reviews from your customers.</p>
+        </div>
+      </div>
+
+      <div class="grid testi-grid">
+        <div class="card testi reveal">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p>“Very fast delivery and the design is beautiful. Our hotel now gets more inquiries on WhatsApp.”</p>
+          <div class="who">— Hotel Owner, Sri Lanka</div>
+        </div>
+        <div class="card testi reveal">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p>“The landing page helped our ads convert better. Clean layout and perfect mobile view.”</p>
+          <div class="who">— Small Business Client</div>
+        </div>
+        <div class="card testi reveal">
+          <div class="stars" aria-label="5 stars">★★★★★</div>
+          <p>“Good support after delivery. Small changes were done quickly. Highly recommended.”</p>
+          <div class="who">— Institute Manager</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Contact</div>
+          <h2>Let’s build your website</h2>
+          <p>Send a message or click WhatsApp. We reply fast.</p>
+        </div>
+      </div>
+
+      <div class="grid contact-grid">
+        <form class="card reveal" id="contactForm" novalidate>
+          <div class="pill">📩 Quick inquiry</div>
+
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" placeholder="Enter your name" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" required />
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="07X XXX XXXX" required />
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us about your website..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <a class="btn" href="https://wa.me/94767520540" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+
+          <div class="msg" id="formMsg" role="status" aria-live="polite"></div>
+          <p class="small">Note: This demo form shows a success message (no email sending). You can connect EmailJS later.</p>
+        </form>
+
+        <aside class="card contact-card reveal">
+          <div class="pill">📞 Business Details</div>
+
+          <div class="line"><span>Phone</span><b>076 752 0540</b></div>
+          <div class="line"><span>WhatsApp</span><b><a href="https://wa.me/94767520540" target="_blank" rel="noopener">Chat Now</a></b></div>
+          <div class="line"><span>Email</span><b>info@sldigitalsolutione.com</b></div>
+          <div class="line"><span>Location</span><b>Sri Lanka</b></div>
+
+          <p class="small">
+            Replace the email with your real one. WhatsApp link is already set to your number.
+          </p>
+
+          <a class="btn btn-primary" href="https://wa.me/94767520540?text=Hi%20SL%20Digital%20Solutione%2C%20I%20need%20a%20website." target="_blank" rel="noopener">
+            WhatsApp for Quote →
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:8px;">
+            <span class="brand-badge" aria-hidden="true"></span>
+            <span>SL Digital Solutione</span>
+          </div>
+          <p class="small">Web design • Development • SEO-ready • Fast performance</p>
+
+          <div class="footer-links" aria-label="Footer links">
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </div>
+
+          <div class="small" id="copyright"></div>
+        </div>
+
+        <div class="card" style="padding:18px;">
+          <div class="pill">🔗 Social Links</div>
+          <p class="small">Replace these links with your real pages:</p>
+          <div class="footer-links">
+            <a href="#" title="Replace with Facebook link">Facebook</a>
+            <a href="#" title="Replace with Instagram link">Instagram</a>
+            <a href="https://wa.me/94767520540" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="float-wrap" aria-label="Quick actions">
+    <a class="float-btn" href="https://wa.me/94767520540" target="_blank" rel="noopener" title="WhatsApp">
+      💬
+    </a>
+    <button class="float-btn hidden" id="backToTop" title="Back to top" aria-label="Back to top">
+      ⬆️
+    </button>
+  </div>
+
+  <script>
+    // =========================
+    // SL Digital Solutione JS
+    // =========================
+
+    // Preloader hide
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      setTimeout(() => preloader.classList.add("hidden"), 250);
+    });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    hamburger?.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    // Close mobile menu after clicking a link
+    mobileMenu?.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll(".reveal");
+    const skillBars = document.querySelectorAll(".bar > span[data-progress]");
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("show");
+
+          // Animate skill bars when skills card appears
+          if(entry.target.classList.contains("skills")){
+            skillBars.forEach(bar => {
+              const val = bar.getAttribute("data-progress") || "0";
+              bar.style.width = val + "%";
+            });
+          }
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => io.observe(el));
+
+    // Portfolio filtering
+    const chips = document.querySelectorAll(".chip");
+    const projects = document.querySelectorAll(".project");
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+
+        const filter = chip.getAttribute("data-filter");
+        projects.forEach(p => {
+          const cat = p.getAttribute("data-category");
+          const show = (filter === "all" || cat === filter);
+          p.style.display = show ? "flex" : "none";
+        });
+      });
+    });
+
+    // Contact form validation + success message (no page reload)
+    const form = document.getElementById("contactForm");
+    const formMsg = document.getElementById("formMsg");
+
+    function isEmail(v){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+    function isPhone(v){
+      // Simple Sri Lanka mobile validation: starts with 0 and 10 digits OR +94...
+      const t = v.trim();
+      return /^(0\d{9}|\+94\d{9}|94\d{9})$/.test(t.replace(/\s+/g,""));
+    }
+
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      formMsg.classList.remove("show");
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      const errors = [];
+      if(name.length < 2) errors.push("Please enter your name.");
+      if(!isEmail(email)) errors.push("Please enter a valid email.");
+      if(!isPhone(phone)) errors.push("Please enter a valid phone number (e.g., 07XXXXXXXX).");
+      if(message.length < 10) errors.push("Message should be at least 10 characters.");
+
+      if(errors.length){
+        formMsg.textContent = "❌ " + errors.join(" ");
+        formMsg.classList.add("show");
+        return;
+      }
+
+      // Demo success (no backend connected)
+      formMsg.textContent = "✅ Thanks! Your message is ready. For fastest response, click WhatsApp.";
+      formMsg.classList.add("show");
+      form.reset();
+    });
+
+    // Back to top button
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      if(window.scrollY > 600){
+        backToTop.classList.remove("hidden");
+      }else{
+        backToTop.classList.add("hidden");
+      }
+    });
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Footer copyright
+    const year = new Date().getFullYear();
+    document.getElementById("copyright").textContent =
+      "© " + year + " SL Digital Solutione. All rights reserved.";
+
+    // OPTIONAL: Change WhatsApp number in one place if needed
+    // WhatsApp link used: https://wa.me/94767520540
+  </script>
+
+  <!--
+  QUICK EDIT GUIDE (IMPORTANT)
+  1) WhatsApp number:
+     - Search for: 94767520540 and replace with your number (format: 94 + mobile without first 0)
+     - Example: 0761234567 -> https://wa.me/94761234567
+
+  2) Email / Location:
+     - In Contact section, replace: info@sldigitalsolutione.com and Location text.
+
+  3) Portfolio projects:
+     - In Portfolio section, change project title, description, category (data-category), and demo link (href="#").
+
+  4) Social links:
+     - In Footer, replace the # links for Facebook/Instagram.
+
+  5) Hosting (Free):
+     - GitHub Pages: Create repo -> upload index.html -> Settings -> Pages -> Deploy from main branch.
+     - Netlify: Drag & drop your folder (or index.html) into Netlify -> it will give you a live link.
+  -->
+</body>
+</html>
